@@ -1,5 +1,7 @@
 package com.github.randomcodeorg.ppplugin.ppdefaults;
 
+import java.io.IOException;
+
 import com.github.randomcodeorg.ppplugin.PContext;
 import com.github.randomcodeorg.ppplugin.PProcessor;
 
@@ -9,11 +11,11 @@ import javassist.CtClass;
 import javassist.NotFoundException;
 
 public abstract class AbstractClassModificationProcessor implements PProcessor {
-	
+
 	protected PContext context;
 
 	public AbstractClassModificationProcessor() {
-		
+
 	}
 
 	public void init(PContext context) {
@@ -27,11 +29,11 @@ public abstract class AbstractClassModificationProcessor implements PProcessor {
 			throw new RuntimeException(th);
 		}
 	}
-	
-	public void doRun() throws NotFoundException{
+
+	public void doRun() throws NotFoundException {
 		ByteCodeHelper bch = new ByteCodeHelper(context);
 		try {
-			context.getLog().info("Inserting log calls for caught exceptions...");
+			context.getLog().info("Processing compiled classes...");
 			ClassPool cp = bch.getClassPool();
 			for (Class<?> cl : context.getClasses()) {
 				if (cl.getCanonicalName() == null)
@@ -58,10 +60,20 @@ public abstract class AbstractClassModificationProcessor implements PProcessor {
 				}
 			}
 		} finally {
+			try {
+				bch.commit(true);
+			} catch (CannotCompileException e) {
+				context.getLog().debug(e);
+				context.getLog().warn("Some changes could not be compiled. See the debug log for exception details");
+			} catch (IOException e) {
+				context.getLog().debug(e);
+				context.getLog().warn("Some changes could not be applied. See the debug log for exception details");
+			}
 			bch.releaseRessources();
 		}
 	}
 
-	protected abstract void processClass(ByteCodeHelper helper, CtClass ctClass, Class<?> clazz) throws CannotCompileException;
-	
+	protected abstract void processClass(ByteCodeHelper helper, CtClass ctClass, Class<?> clazz)
+			throws CannotCompileException;
+
 }

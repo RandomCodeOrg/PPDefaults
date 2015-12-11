@@ -26,19 +26,19 @@ public class InsertMethodCallLogProcessor extends AbstractLoggingProcessor {
 			annotation = clazz.getAnnotation(LogThis.class);
 		for (Method m : clazz.getDeclaredMethods()) {
 			if (m.isAnnotationPresent(LogThis.class)) {
-				processMethod(helper, ctClass, ByteCodeHelper.findMethod(ctClass, m), m,
+				processMethod(helper, ctClass, clazz, ByteCodeHelper.findMethod(ctClass, m), m,
 						m.getAnnotation(LogThis.class));
 			} else if (classLevelLog) {
-				processMethod(helper, ctClass, ByteCodeHelper.findMethod(ctClass, m), m, annotation);
+				processMethod(helper, ctClass, clazz, ByteCodeHelper.findMethod(ctClass, m), m, annotation);
 			}
 		}
 	}
 
-	protected void processMethod(ByteCodeHelper helper, CtClass ctClass, CtMethod m, Method runtimeMethod,
+	protected void processMethod(ByteCodeHelper helper, CtClass ctClass, Class<?> clazz, CtMethod m, Method runtimeMethod,
 			LogThis annotation) throws CannotCompileException {
 		if (m == null)
 			return;
-		context.getLog().info(String.format("Inserting log calls into %s", m.getLongName()));
+		if (helper.edit(ctClass, clazz)) context.getLog().info(String.format("Inserting log calls into %s", m.getLongName()));
 		CtField loggerField = injectLogger(helper, ctClass);
 		context.getLog().debug(String.format("Using logger that is stored in field '%s' to log method calls of %s",
 				loggerField.getName(), m.getLongName()));
