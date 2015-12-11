@@ -1,8 +1,11 @@
 package com.github.randomcodeorg.ppplugin.ppdefaults.logging;
 
 import com.github.randomcodeorg.ppplugin.ppdefaults.AbstractClassModificationProcessor;
+import com.github.randomcodeorg.ppplugin.ppdefaults.ByteCodeHelper;
 
+import javassist.CannotCompileException;
 import javassist.CtClass;
+import javassist.CtField;
 
 public abstract class AbstractLoggingProcessor extends AbstractClassModificationProcessor {
 
@@ -28,6 +31,12 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 
 	protected String getLoggerInitialization(CtClass cl) {
 		return String.format(DEFAULT_LOGGER_INITIALIZATION, cl.getSimpleName());
+	}
+	
+	
+	protected CtField injectLogger(ByteCodeHelper helper, CtClass ctClass) throws CannotCompileException{
+		return helper.getOrCreateField(ctClass, getLoggerType(), getLoggerFieldPrefix(), "private", true,
+				true, getLoggerInitialization(ctClass));
 	}
 
 }

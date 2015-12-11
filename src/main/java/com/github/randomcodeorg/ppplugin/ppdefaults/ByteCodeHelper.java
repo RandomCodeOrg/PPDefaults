@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import javassist.ClassPath;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtField;
+import javassist.CtMethod;
 import javassist.NotFoundException;
 
 public class ByteCodeHelper {
@@ -43,85 +45,122 @@ public class ByteCodeHelper {
 			}
 		}
 	}
-	
-	public ClassPool getClassPool() throws NotFoundException{
-		if(classPool == null) createClassPool();
+
+	public static CtMethod findMethod(CtClass clazz, Method m) {
+		try {
+			CtClass[] parameterTypes;
+			Class<?>[] runtimeParameterTyes = m.getParameterTypes();
+			for (CtMethod ctMethod : clazz.getDeclaredMethods(m.getName())) {
+				parameterTypes = ctMethod.getParameterTypes();
+				if (parameterTypes.length != runtimeParameterTyes.length)
+					continue;
+				boolean missmatch = false;
+				for (int i = 0; i < parameterTypes.length; i++) {
+					if (!runtimeParameterTyes[i].getName().equals(parameterTypes[i].getName())) {
+						missmatch = true;
+						break;
+					}
+				}
+				if (missmatch)
+					continue;
+				return ctMethod;
+			}
+			return null;
+		} catch (NotFoundException e) {
+			return null;
+		}
+	}
+
+	public ClassPool getClassPool() throws NotFoundException {
+		if (classPool == null)
+			createClassPool();
 		return classPool;
 	}
 
-	public boolean edit(CtClass cl, Class<?> runtimeClass){
-		if(classPool == null) throw new IllegalStateException("There is no ClassPool for this ByteCodeHelper");
-		if(!editedClasses.containsKey(cl)){
+	public boolean edit(CtClass cl, Class<?> runtimeClass) {
+		if (classPool == null)
+			throw new IllegalStateException("There is no ClassPool for this ByteCodeHelper");
+		if (!editedClasses.containsKey(cl)) {
 			editedClasses.put(cl, runtimeClass);
 			return true;
 		}
 		return false;
 	}
-	
-	public CtField getOrCreateField(CtClass ctClass, String typeName, String fieldPrefix, String visibility, boolean isStatic, boolean isFinal, String initValue) throws CannotCompileException{
-		for(CtField f : ctClass.getDeclaredFields()){
-			if(!f.getName().startsWith(fieldPrefix)) continue;
+
+	public CtField getOrCreateField(CtClass ctClass, String typeName, String fieldPrefix, String visibility,
+			boolean isStatic, boolean isFinal, String initValue) throws CannotCompileException {
+		for (CtField f : ctClass.getDeclaredFields()) {
+			if (!f.getName().startsWith(fieldPrefix))
+				continue;
 			try {
-				if(f.getType().getName().equals(typeName)) return f;
+				if (f.getType().getName().equals(typeName))
+					return f;
 			} catch (NotFoundException e) {
-				
+
 			}
 		}
 		String name = ctClass.makeUniqueName(fieldPrefix);
 		String staticV = "";
-		if(isStatic) staticV = "static";
+		if (isStatic)
+			staticV = "static";
 		String finalV = "";
-		if(isFinal) finalV = "final";
-		if(initValue == null || initValue.isEmpty()){
-			CtField f = CtField.make(String.format("%s %s %s %s %s;", visibility, staticV, finalV, typeName, name), ctClass);
+		if (isFinal)
+			finalV = "final";
+		if (initValue == null || initValue.isEmpty()) {
+			CtField f = CtField.make(String.format("%s %s %s %s %s;", visibility, staticV, finalV, typeName, name),
+					ctClass);
 			ctClass.addField(f);
 			return f;
-		}else{
-			CtField f = CtField.make(String.format("%s %s %s %s %s = %s;", visibility, staticV, finalV, typeName, name, initValue), ctClass);
+		} else {
+			CtField f = CtField.make(
+					String.format("%s %s %s %s %s = %s;", visibility, staticV, finalV, typeName, name, initValue),
+					ctClass);
 			ctClass.addField(f);
 			return f;
 		}
 	}
-	
+
 	public void commit(boolean continueOnException) throws CannotCompileException, IOException {
-		if(classPool == null) return;
+		if (classPool == null)
+			return;
 		ClassPool cp = classPool;
-		for(CtClass c : editedClasses.keySet()){
+		for (CtClass c : editedClasses.keySet()) {
 			cp.importPackage(c.getPackageName());
-			try{
+			try {
 				c.toBytecode(new DataOutputStream(context.modify(editedClasses.get(c))));
-			}catch(IOException e){
+			} catch (IOException e) {
 				handleCompilationException(e, c, continueOnException);
-			}catch(CannotCompileException e){
+			} catch (CannotCompileException e) {
 				handleCompilationException(e, c, continueOnException);
-			}catch(Error e){
+			} catch (Error e) {
 				handleCompilationException(e, c, continueOnException);
-			}catch (RuntimeException e) {
+			} catch (RuntimeException e) {
 				handleCompilationException(e, c, continueOnException);
 			}
 		}
 		editedClasses.clear();
 	}
-	
-	public void commit(){
+
+	public void commit() {
 		try {
 			commit(true);
 		} catch (CannotCompileException e) {
 		} catch (IOException e) {
 		}
 	}
-	
-	private <T extends Throwable> void handleCompilationException(T e, CtClass c, boolean continueOnException) throws T{
-		if(!continueOnException) throw e;
+
+	private <T extends Throwable> void handleCompilationException(T e, CtClass c, boolean continueOnException)
+			throws T {
+		if (!continueOnException)
+			throw e;
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		context.getLog()
-				.warn(String.format(
-						"Could not compile changes in the class %s. The following exception occured: %s",
+				.warn(String.format("Could not compile changes in the class %s. The following exception occured: %s",
 						c.getName(), sw.toString()));
 	}
-	
+
 	public void releaseRessources() {
 		if (classPool != null) {
 			for (ClassPath cp : classPaths)
