@@ -6,14 +6,35 @@
 	<artifactId>ppdefaults</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
-
-	<name>ppdefaults</name>
-	<url>http://maven.apache.org</url>
-
+	<name>Post Processor Defaults</name>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<url>https://github.com/RandomCodeOrg/PPDefaults</url>
+	<developers>
+		<developer>
+			<id>RandomCodeOrg</id>
+			<name>RandomCodeOrg-Team</name>
+		</developer>
+	</developers>
+	<scm>
+		<url>https://github.com/RandomCodeOrg/PPPlugin.git</url>
+	</scm>
+	<description>A project that provides some predefined implementations of PProcessor which can be executed by the PPPlugin.</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases-ppplugin</id>
+			<name>Nexus Release Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.randomcodeorg.ppplugin</groupId>
