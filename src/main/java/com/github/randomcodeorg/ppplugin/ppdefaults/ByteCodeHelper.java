@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.randomcodeorg.ppplugin.PContext;
+import com.github.randomcodeorg.ppplugin.ppdefaults.logging.AbstractLoggingProcessor;
 
 import javassist.CannotCompileException;
 import javassist.ClassPath;
@@ -20,6 +21,12 @@ import javassist.CtField;
 import javassist.CtMethod;
 import javassist.NotFoundException;
 
+/**
+ * A helper class to simplify the modification of generated class files.
+ * Please see the documentation of the {@link ByteCodeHelper#edit(CtClass, Class)} method.
+ * @author Marcel Singer
+ *
+ */
 public class ByteCodeHelper {
 
 	private final PContext context;
@@ -27,6 +34,10 @@ public class ByteCodeHelper {
 	private List<ClassPath> classPaths = new ArrayList<ClassPath>();
 	private final Map<CtClass, Class<?>> editedClasses = new HashMap<CtClass, Class<?>>();
 
+	/**
+	 * Creates a new {@link ByteCodeHelper} using the given context.
+	 * @param context The context to be used by this {@link ByteCodeHelper}.
+	 */
 	public ByteCodeHelper(PContext context) {
 		this.context = context;
 	}
@@ -46,6 +57,12 @@ public class ByteCodeHelper {
 		}
 	}
 
+	/**
+	 * Finds the {@link Method} corresponding to the given javassist {@link CtMethod}.
+	 * @param clazz The {@link CtClass} that contains the {@link CtMethod}.
+	 * @param m The reflection {@link Method} thats corresponding {@link CtMethod} should be returned.
+	 * @return The {@link CtMethod} with the same name and input parameters as the given reflection {@link Method}.
+	 */
 	public static CtMethod findMethod(CtClass clazz, Method m) {
 		try {
 			CtClass[] parameterTypes;
@@ -71,13 +88,26 @@ public class ByteCodeHelper {
 		}
 	}
 
+	/**
+	 * Returns the javassist {@link ClassPool} used by this instance.
+	 * @return The javassist {@link ClassPool} used by this instance.
+	 * @throws NotFoundException If the class pool could not be created.
+	 */
 	public ClassPool getClassPool() throws NotFoundException {
 		if (classPool == null)
 			createClassPool();
 		return classPool;
 	}
 
-	public boolean edit(CtClass cl, Class<?> runtimeClass) {
+	/**
+	 * <p>Marks the given class as edited. A future call to {@link ByteCodeHelper#commit()} will compile and save the changes of this class.</p>
+	 * <p><b>Note:</b> Some processors in this project ({@link AbstractClassModificationProcessor}, {@link AbstractLoggingProcessor}, ...) will call the {@link ByteCodeHelper#commit()} method automatically.</p>
+	 * @param cl The {@link CtClass} to edit.
+	 * @param runtimeClass The corresponding reflection {@link Class}.
+	 * @return {@code false} if the given class is already marked as edited.
+	 * @throws IllegalStateException Is thrown if there is no {@link ClassPool} for this instance. See {@link ByteCodeHelper#getClassPool()}.
+	 */
+	public boolean edit(CtClass cl, Class<?> runtimeClass) throws IllegalStateException {
 		if (classPool == null)
 			throw new IllegalStateException("There is no ClassPool for this ByteCodeHelper");
 		if (!editedClasses.containsKey(cl)) {
@@ -87,6 +117,19 @@ public class ByteCodeHelper {
 		return false;
 	}
 
+	/**
+	 * <p>Returns a existing field or creates one.</p>
+	 * <p><b>Note:</b> This method will not call {@link ByteCodeHelper#edit(CtClass, Class). One should do this himself.}</p>
+	 * @param ctClass The {@link CtClass} that contains the field.
+	 * @param typeName A string containing the canonical type of the field to return. 
+	 * @param fieldPrefix The prefix of the fields name.
+	 * @param visibility The visibility of the field (public, private, protected).
+	 * @param isStatic {@code true} if the field is static.
+	 * @param isFinal {@code true} if the field is final.
+	 * @param initValue The initial value of the field (4, new java.lang.Object(), new java.lang.StringBuilder()) or {@code null}.
+	 * @return The found or created field.
+	 * @throws CannotCompileException If the field could not be found and the creation failed.
+	 */
 	public CtField getOrCreateField(CtClass ctClass, String typeName, String fieldPrefix, String visibility,
 			boolean isStatic, boolean isFinal, String initValue) throws CannotCompileException {
 		for (CtField f : ctClass.getDeclaredFields()) {
@@ -120,6 +163,13 @@ public class ByteCodeHelper {
 		}
 	}
 
+	/**
+	 * Compiles the changes and applies them to the corresponding .class-files.
+	 * <p><b>Note:</b> Some processors in this project ({@link AbstractClassModificationProcessor}, {@link AbstractLoggingProcessor}, ...) will call the {@link ByteCodeHelper#commit()} method automatically.</p>
+	 * @param continueOnException {@code false} if the process should abort if an exception is thrown. {@code true} if the process should continue if an exception is thrown (in this case the exception will be logged). 
+	 * @throws CannotCompileException Is thrown if the changes could not be compiled and {@literal continueOnException} is {@code false}.
+	 * @throws IOException Is thrown if the changes could not be written to the corresponding .class-files and {@literal continueOnException} is {@code false}.
+	 */
 	public void commit(boolean continueOnException) throws CannotCompileException, IOException {
 		if (classPool == null)
 			return;
@@ -141,6 +191,9 @@ public class ByteCodeHelper {
 		editedClasses.clear();
 	}
 
+	/**
+	 * The same as {@code ByteCodeHelper#commit(true)}.
+	 */
 	public void commit() {
 		try {
 			commit(true);
@@ -161,7 +214,10 @@ public class ByteCodeHelper {
 						c.getName(), sw.toString()));
 	}
 
-	public void releaseRessources() {
+	/**
+	 * Releases the resources of created by this instance.
+	 */
+	public void releaseResources() {
 		if (classPool != null) {
 			for (ClassPath cp : classPaths)
 				classPool.removeClassPath(cp);

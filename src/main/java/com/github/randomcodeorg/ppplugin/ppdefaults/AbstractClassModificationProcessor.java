@@ -69,7 +69,7 @@ public abstract class AbstractClassModificationProcessor implements PProcessor {
 				context.getLog().debug(e);
 				context.getLog().warn("Some changes could not be applied. See the debug log for exception details");
 			}
-			bch.releaseRessources();
+			bch.releaseResources();
 		}
 	}
 
