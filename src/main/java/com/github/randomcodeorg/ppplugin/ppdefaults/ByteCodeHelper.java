@@ -119,7 +119,7 @@ public class ByteCodeHelper {
 
 	/**
 	 * <p>Returns a existing field or creates one.</p>
-	 * <p><b>Note:</b> This method will not call {@link ByteCodeHelper#edit(CtClass, Class). One should do this himself.}</p>
+	 * <p><b>Note:</b> This method will not call {@link ByteCodeHelper#edit(CtClass, Class)}. One should do this himself.</p>
 	 * @param ctClass The {@link CtClass} that contains the field.
 	 * @param typeName A string containing the canonical type of the field to return. 
 	 * @param fieldPrefix The prefix of the fields name.
