@@ -48,7 +48,7 @@ public abstract class InsertCaughtExceptionLogProcessor extends AbstractLoggingP
 		context.getLog().info(String.format("Inserting catch log for %s", location));
 		String code;
 		code = String.format(
-				"{ %s.%s(\"Caught an exception of the type \" +  $1.getClass().getCanonicalName() + \" at %s\\n\\tMessage: \" + $1.getMessage() ); }",
+				"{ %s.%s(\"Caught an \" +  $1.getClass().getCanonicalName() + \" at %s\\n\\tMessage: \" + $1.getMessage() ); }",
 				loggerField.getName(), getLogMethodName(getExceptionLogLevel(clazz)), location);
 		h.insertBefore(code);
 	}
