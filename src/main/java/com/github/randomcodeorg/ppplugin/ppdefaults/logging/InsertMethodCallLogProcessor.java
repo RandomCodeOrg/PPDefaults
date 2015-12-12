@@ -57,7 +57,7 @@ public class InsertMethodCallLogProcessor extends AbstractLoggingProcessor {
 		sb.append("\"Called ");
 		sb.append(m.getLongName());
 		if (parameterNames.length > 0) {
-			sb.append(" width:");
+			sb.append(" with:");
 			for (int i = 0; i < parameterNames.length; i++) {
 				String param = parameterNames[i];
 				if (param != null) {
