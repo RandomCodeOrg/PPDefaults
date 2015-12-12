@@ -25,6 +25,7 @@ public class InsertMethodCallLogProcessor extends AbstractLoggingProcessor {
 		if (classLevelLog)
 			annotation = clazz.getAnnotation(LogThis.class);
 		for (Method m : clazz.getDeclaredMethods()) {
+			if(m.isAnnotationPresent(Stealth.class)) continue;
 			if (m.isAnnotationPresent(LogThis.class)) {
 				processMethod(helper, ctClass, clazz, ByteCodeHelper.findMethod(ctClass, m), m,
 						m.getAnnotation(LogThis.class));
