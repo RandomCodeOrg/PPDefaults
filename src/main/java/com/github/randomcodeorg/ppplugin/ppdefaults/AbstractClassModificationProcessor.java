@@ -10,10 +10,22 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
 
+/**
+ * A processor that iterates over all compiled classes. You can inherit from this processor
+ * to modify such classes.
+ * @author Marcel Singer
+ *
+ */
 public abstract class AbstractClassModificationProcessor implements PProcessor {
 
+	/**
+	 * The context of this processor.
+	 */
 	protected PContext context;
 
+	/**
+	 * Creates a new instance of {@link AbstractClassModificationProcessor}.
+	 */
 	public AbstractClassModificationProcessor() {
 
 	}
@@ -30,7 +42,11 @@ public abstract class AbstractClassModificationProcessor implements PProcessor {
 		}
 	}
 
-	public void doRun() throws NotFoundException {
+	/**
+	 * Iterates over all compiled classes and calls {@link AbstractClassModificationProcessor#processClass(ByteCodeHelper, CtClass, Class)}.
+	 * @throws NotFoundException Is thrown if the javassist {@link ClassPool} could not be created.
+	 */
+	protected void doRun() throws NotFoundException {
 		ByteCodeHelper bch = new ByteCodeHelper(context);
 		try {
 			context.getLog().info("Processing compiled classes...");
@@ -73,6 +89,14 @@ public abstract class AbstractClassModificationProcessor implements PProcessor {
 		}
 	}
 
+	/**
+	 * Processes the given class. Be sure to call {@link ByteCodeHelper#edit(CtClass, Class)} of the given helper if a class was edited. A call to {@link ByteCodeHelper#commit()} will
+	 * be done automatically.
+	 * @param helper The {@link ByteCodeHelper} to be used.
+	 * @param ctClass The javassist {@link CtClass} to process.
+	 * @param clazz The corresponding {@link Class}.
+	 * @throws CannotCompileException If the changes could not be compiled.
+	 */
 	protected abstract void processClass(ByteCodeHelper helper, CtClass ctClass, Class<?> clazz)
 			throws CannotCompileException;
 
