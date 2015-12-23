@@ -5,7 +5,7 @@ import javassist.CtClass;
 public class DefaultLoggingCodeSource implements LoggingCodeSource {
 
 	private static final String DEFAULT_LOGGER_TYPE = "org.slf4j.Logger";
-	private static final String DEFAULT_LOGGER_PREFIX = "al_";
+	
 	private static final String DEFAULT_LOGGER_INITIALIZATION = "org.slf4j.LoggerFactory.getLogger(%s.class);";
 
 	public DefaultLoggingCodeSource() {

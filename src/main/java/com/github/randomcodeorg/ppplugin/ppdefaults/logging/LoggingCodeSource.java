@@ -4,6 +4,8 @@ import javassist.CtClass;
 
 public interface LoggingCodeSource {
 
+	public static final String DEFAULT_LOGGER_PREFIX = "al_";
+	
 	/**
 	 * Returns the name of the loggers log method.
 	 * 
