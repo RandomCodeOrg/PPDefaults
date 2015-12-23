@@ -72,6 +72,7 @@ public class AndroidLogAdapter {
 		} catch (NoSuchFieldException e) {
 		} catch (IllegalArgumentException e) {
 		} catch (IllegalAccessException e) {
+		} catch (NoClassDefFoundError e){
 		}
 		String tmp = runtimeClass.getSimpleName();
 		if (tmp.length() > 23) {
