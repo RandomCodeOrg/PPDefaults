@@ -26,13 +26,17 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 
 	}
 
+	/**
+	 * Sets the {@link LoggingCodeSource} that will be used to create the necessary lines of code.
+	 * <p><b>Note:</b> It is not longer recommended to override the methods of this class directly. Instead one might use this method to customized the logging process.</p>
+	 * @param source The {@link LoggingCodeSource} that will be used to create the necessary lines of code.
+	 */
 	public void setLoggingCodeSource(LoggingCodeSource source) {
 		this.codeSource = source;
 	}
 
 	/**
 	 * Returns the name of the loggers log method.
-	 * 
 	 * @param level
 	 *            The log level.
 	 * @return the name of the loggers log method (e.g. &quot;info&quot;,
