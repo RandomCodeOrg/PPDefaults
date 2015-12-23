@@ -43,6 +43,6 @@ public interface LoggingCodeSource {
 	 * @return The initial value of the logger (e.g. &quot;new Logger()&quot;,
 	 *         &quot;org.slf4j.LoggerFactory.getLogger(Object.class)&quot;).
 	 */
-	String getLoggerInitialization(CtClass cl);
+	String getLoggerInitialization(CtClass cl, Class<?> runtimeClass);
 
 }

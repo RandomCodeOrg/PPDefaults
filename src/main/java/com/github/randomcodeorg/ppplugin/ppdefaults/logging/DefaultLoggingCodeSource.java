@@ -28,7 +28,7 @@ public class DefaultLoggingCodeSource implements LoggingCodeSource {
 	}
 
 	@Override
-	public String getLoggerInitialization(CtClass cl) {
+	public String getLoggerInitialization(CtClass cl, Class<?> runtimeClass) {
 		return String.format(DEFAULT_LOGGER_INITIALIZATION, cl.getSimpleName());
 	}
 

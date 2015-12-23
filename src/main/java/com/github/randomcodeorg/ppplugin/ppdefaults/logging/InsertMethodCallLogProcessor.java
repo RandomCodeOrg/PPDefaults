@@ -40,7 +40,7 @@ public class InsertMethodCallLogProcessor extends AbstractLoggingProcessor {
 		if (m == null)
 			return;
 		if (helper.edit(ctClass, clazz)) context.getLog().info(String.format("Inserting log calls into %s", m.getLongName()));
-		CtField loggerField = injectLogger(helper, ctClass);
+		CtField loggerField = injectLogger(helper, ctClass, clazz);
 		context.getLog().debug(String.format("Using logger that is stored in field '%s' to log method calls of %s",
 				loggerField.getName(), m.getLongName()));
 

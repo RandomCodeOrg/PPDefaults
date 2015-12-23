@@ -72,11 +72,14 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 	 * 
 	 * @param cl
 	 *            The class in which the logger will be used.
+	 * @param runtimeClass
+	 *            The java.lang.Class<?> representation of the class in which
+	 *            the logger will be used.
 	 * @return The initial value of the logger (e.g. &quot;new Logger()&quot;,
 	 *         &quot;org.slf4j.LoggerFactory.getLogger(Object.class)&quot;).
 	 */
-	protected String getLoggerInitialization(CtClass cl) {
-		return codeSource.getLoggerInitialization(cl);
+	protected String getLoggerInitialization(CtClass cl, Class<?> runtimeClass) {
+		return codeSource.getLoggerInitialization(cl, runtimeClass);
 	}
 
 	/**
@@ -86,13 +89,15 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 	 *            The helper to be used.
 	 * @param ctClass
 	 *            The class in which the logger will be used.
+	 * @param runtimeClass
+	 *            The java.lang.Class<?> representation of the class in which
 	 * @return The field that holds the logger for the given class.
 	 * @throws CannotCompileException
 	 *             If the changes could not be compiled.
 	 */
-	protected CtField injectLogger(ByteCodeHelper helper, CtClass ctClass) throws CannotCompileException {
+	protected CtField injectLogger(ByteCodeHelper helper, CtClass ctClass, Class<?> runtimeClass) throws CannotCompileException {
 		return helper.getOrCreateField(ctClass, getLoggerType(), getLoggerFieldPrefix(), "private", true, true,
-				getLoggerInitialization(ctClass));
+				getLoggerInitialization(ctClass, runtimeClass));
 	}
 
 }
