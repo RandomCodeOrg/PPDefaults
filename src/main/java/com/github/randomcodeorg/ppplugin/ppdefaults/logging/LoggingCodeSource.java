@@ -5,7 +5,7 @@ import javassist.CtClass;
 public interface LoggingCodeSource {
 
 	public static final String DEFAULT_LOGGER_PREFIX = "al_";
-	
+
 	/**
 	 * Returns the name of the loggers log method.
 	 * 
@@ -42,6 +42,7 @@ public interface LoggingCodeSource {
 	 * 
 	 * @param cl
 	 *            The class in which the logger will be used.
+	 * @param runtimeClass The {@link Class} representation of the class in which the logger will be used.
 	 * @return The initial value of the logger (e.g. &quot;new Logger()&quot;,
 	 *         &quot;org.slf4j.LoggerFactory.getLogger(Object.class)&quot;).
 	 */

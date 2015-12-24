@@ -77,7 +77,7 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 	 * @param cl
 	 *            The class in which the logger will be used.
 	 * @param runtimeClass
-	 *            The java.lang.Class<?> representation of the class in which
+	 *            The {@link Class} representation of the class in which
 	 *            the logger will be used.
 	 * @return The initial value of the logger (e.g. &quot;new Logger()&quot;,
 	 *         &quot;org.slf4j.LoggerFactory.getLogger(Object.class)&quot;).
@@ -94,7 +94,7 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 	 * @param ctClass
 	 *            The class in which the logger will be used.
 	 * @param runtimeClass
-	 *            The java.lang.Class<?> representation of the class in which
+	 *            The {@link Class} representation of the class in which
 	 * @return The field that holds the logger for the given class.
 	 * @throws CannotCompileException
 	 *             If the changes could not be compiled.
