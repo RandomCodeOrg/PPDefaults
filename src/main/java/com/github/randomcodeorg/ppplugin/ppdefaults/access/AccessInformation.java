@@ -5,5 +5,8 @@ public interface AccessInformation {
 	
 	Thread getThread();
 	StackTraceElement[] getStackTrace();
+	String getExtra();
+	boolean hasParameters();
+	Object[] getParameters();
 
 }
