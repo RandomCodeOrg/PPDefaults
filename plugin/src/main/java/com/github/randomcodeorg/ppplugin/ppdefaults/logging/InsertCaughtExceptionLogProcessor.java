@@ -33,7 +33,7 @@ public abstract class InsertCaughtExceptionLogProcessor extends AbstractLoggingP
 					context.getLog().info(
 							String.format("Inserting a log call for exceptions caught in '%s'", ctClass.getName()));
 				CtBehavior ctBehavior = h.where();
-				CtField f = injectLogger(helper, ctClass);
+				CtField f = injectLogger(helper, ctClass, runtimeClass);
 				context.getLog()
 						.debug(String.format(
 								"Using logger that is stored in field '%s' to log caught exception at %s:%d", f.getName(),

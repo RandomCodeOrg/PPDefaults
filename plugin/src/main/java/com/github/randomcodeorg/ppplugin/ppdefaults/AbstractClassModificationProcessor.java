@@ -41,7 +41,7 @@ public abstract class AbstractClassModificationProcessor implements PProcessor {
 			throw new RuntimeException(th);
 		}
 	}
-
+	
 	/**
 	 * Iterates over all compiled classes and calls {@link AbstractClassModificationProcessor#processClass(ByteCodeHelper, CtClass, Class)}.
 	 * @throws NotFoundException Is thrown if the javassist {@link ClassPool} could not be created.
