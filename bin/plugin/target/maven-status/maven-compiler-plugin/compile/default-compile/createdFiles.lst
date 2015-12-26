@@ -1,0 +1,16 @@
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\PostBuildProcessor$1.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\LogLevel.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\InsertCaughtExceptionLogProcessor$1.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\InsertCaughtExceptionLogProcessor.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\InsertMethodCallLogProcessor.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\AndroidLoggingCodeSource.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\LoggingCodeSource.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\LogThis.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\AndroidLoggingCodeSource$1.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\AndroidLogAdapter.class
+com\github\randomcodeorg\ppplugin\ppdefaults\ByteCodeHelper.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\DefaultLoggingCodeSource.class
+com\github\randomcodeorg\ppplugin\ppdefaults\AbstractClassModificationProcessor.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\Stealth.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\AbstractLoggingProcessor.class
+com\github\randomcodeorg\ppplugin\ppdefaults\logging\PostBuildProcessor.class
