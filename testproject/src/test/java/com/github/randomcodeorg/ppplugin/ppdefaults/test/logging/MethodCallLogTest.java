@@ -1,12 +1,12 @@
 package com.github.randomcodeorg.ppplugin.ppdefaults.test.logging;
 
 import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.Before;
 
 import com.github.randomcodeorg.ppplugin.ppdefaults.logging.LogLevel;
 
-import static org.junit.Assert.*;
 
-import org.junit.Before;
 
 public class MethodCallLogTest {
 

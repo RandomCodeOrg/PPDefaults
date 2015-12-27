@@ -5,10 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@Target(value={ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface CheckNotPositive {
+public @interface Validations {
 
-	Class<? extends RuntimeException> value() default IllegalArgumentException.class;
-
+	Validation[] value();
+	
 }
