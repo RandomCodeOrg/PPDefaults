@@ -15,6 +15,7 @@ import javassist.CtField;
  * @author Marcel Singer
  *
  */
+
 public abstract class AbstractLoggingProcessor extends AbstractClassModificationProcessor {
 
 	private LoggingCodeSource codeSource = new DefaultLoggingCodeSource();
@@ -27,9 +28,17 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 	}
 
 	/**
-	 * Sets the {@link LoggingCodeSource} that will be used to create the necessary lines of code.
-	 * <p><b>Note:</b> It is not longer recommended to override the methods of this class directly. Instead one might use this method to customized the logging process.</p>
-	 * @param source The {@link LoggingCodeSource} that will be used to create the necessary lines of code.
+	 * Sets the {@link LoggingCodeSource} that will be used to create the
+	 * necessary lines of code.
+	 * <p>
+	 * <b>Note:</b> It is not longer recommended to override the methods of this
+	 * class directly. Instead one might use this method to customized the
+	 * logging process.
+	 * </p>
+	 * 
+	 * @param source
+	 *            The {@link LoggingCodeSource} that will be used to create the
+	 *            necessary lines of code.
 	 */
 	public void setLoggingCodeSource(LoggingCodeSource source) {
 		this.codeSource = source;
@@ -37,6 +46,7 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 
 	/**
 	 * Returns the name of the loggers log method.
+	 * 
 	 * @param level
 	 *            The log level.
 	 * @return the name of the loggers log method (e.g. &quot;info&quot;,
@@ -77,8 +87,8 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 	 * @param cl
 	 *            The class in which the logger will be used.
 	 * @param runtimeClass
-	 *            The {@link Class} representation of the class in which
-	 *            the logger will be used.
+	 *            The {@link Class} representation of the class in which the
+	 *            logger will be used.
 	 * @return The initial value of the logger (e.g. &quot;new Logger()&quot;,
 	 *         &quot;org.slf4j.LoggerFactory.getLogger(Object.class)&quot;).
 	 */
@@ -99,7 +109,8 @@ public abstract class AbstractLoggingProcessor extends AbstractClassModification
 	 * @throws CannotCompileException
 	 *             If the changes could not be compiled.
 	 */
-	protected CtField injectLogger(ByteCodeHelper helper, CtClass ctClass, Class<?> runtimeClass) throws CannotCompileException {
+	protected CtField injectLogger(ByteCodeHelper helper, CtClass ctClass, Class<?> runtimeClass)
+			throws CannotCompileException {
 		return helper.getOrCreateField(ctClass, getLoggerType(), getLoggerFieldPrefix(), "private", true, true,
 				getLoggerInitialization(ctClass, runtimeClass));
 	}

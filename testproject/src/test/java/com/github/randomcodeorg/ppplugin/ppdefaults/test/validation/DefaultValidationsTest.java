@@ -1,6 +1,6 @@
 package com.github.randomcodeorg.ppplugin.ppdefaults.test.validation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -38,7 +38,6 @@ public class DefaultValidationsTest {
 			ba.deposit(-50);
 			assertEquals(0, ba.getCredit());
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
 		}
 	}
 

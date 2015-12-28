@@ -20,7 +20,7 @@ public class CodeValidationProcessor extends AbstractClassModificationProcessor 
 	private final HashMap<Class<?>, Set<Class<? extends Validator<?>>>> validationAnnotationTypes = new HashMap<Class<?>, Set<Class<? extends Validator<?>>>>();
 
 	public CodeValidationProcessor() {
-		
+
 	}
 
 	@Override
@@ -72,8 +72,10 @@ public class CodeValidationProcessor extends AbstractClassModificationProcessor 
 			int i = parameterIndex;
 			if (!Modifier.isStatic(behavior.getModifiers()))
 				i++;
-			sb.append(String.format("%s.invoke($%d, new %s(), new %s(), Thread.currentThread().getStackTrace());", ValidationInvoker.class.getCanonicalName(), i, validator.getCanonicalName(), DefaultValidationInformation.class.getCanonicalName()));
-			
+			sb.append(String.format("%s.invoke($%d, new %s(), new %s(), Thread.currentThread().getStackTrace());",
+					ValidationInvoker.class.getCanonicalName(), i, validator.getCanonicalName(),
+					DefaultValidationInformation.class.getCanonicalName()));
+
 		}
 		context.getLog().debug("Inserting: " + sb);
 		doInsert(behavior, sb.toString());
