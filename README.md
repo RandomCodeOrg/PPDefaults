@@ -1,4 +1,4 @@
-# PPDefaults <img src="https://travis-ci.org/RandomCodeOrg/PPDefaults.svg"></img>
+# PPDefaults <img src="https://travis-ci.org/RandomCodeOrg/PPDefaults.svg"></img>[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 A project that provides some predefined implementations of PProcessor which can be executed by the <a href="https://github.com/RandomCodeOrg/PPPlugin">
 PPPlugin</a>.
