@@ -6,5 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 @Validation(NotNegativeValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotNegative {
+	
+	
 
 }

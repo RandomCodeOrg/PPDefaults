@@ -105,7 +105,7 @@ public class CodeValidationProcessor extends AbstractClassModificationProcessor 
 	}
 
 	protected void addDefaultValidationAnnotations() {
-		addAnnotationTypes(NotNegative.class, NotNull.class);
+		addAnnotationTypes(NotNegative.class, NotNull.class, NotEmpty.class);
 	}
 
 	protected void searchValidationAnnotations() {
