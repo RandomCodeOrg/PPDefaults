@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>ppdefaults-tests</artifactId>
 	<packaging>jar</packaging>
-
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -23,7 +23,7 @@
 			<plugin>
 				<groupId>com.github.randomcodeorg.ppplugin</groupId>
 				<artifactId>ppplugin</artifactId>
-				<version>0.3.0</version>
+				<version>0.2.0</version>
 				<executions>
 					<execution>
 						<phase>process-classes</phase>
