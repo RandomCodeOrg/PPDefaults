@@ -58,6 +58,8 @@ public class PreferencesBindingSource extends AbstractBindingSource {
 			}
 		} catch (ClassCastException e) {
 			return defaultValue;
+		}catch(NullPointerException e){
+			return defaultValue;
 		}
 
 		return defaultValue;

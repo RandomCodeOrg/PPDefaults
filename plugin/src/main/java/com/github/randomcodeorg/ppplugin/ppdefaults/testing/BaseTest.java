@@ -1,4 +1,4 @@
-package com.github.randomcodeorg.ppplugin.ppdefaults;
+package com.github.randomcodeorg.ppplugin.ppdefaults.testing;
 
 import java.util.Random;
 

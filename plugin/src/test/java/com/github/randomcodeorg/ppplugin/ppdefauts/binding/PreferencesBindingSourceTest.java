@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.github.randomcodeorg.ppplugin.ppdefaults.BaseTest;
 import com.github.randomcodeorg.ppplugin.ppdefaults.binding.BindingSource;
 import com.github.randomcodeorg.ppplugin.ppdefaults.binding.PreferencesBindingSource;
+import com.github.randomcodeorg.ppplugin.ppdefaults.testing.BaseTest;
 
 public class PreferencesBindingSourceTest extends BaseTest {
 
