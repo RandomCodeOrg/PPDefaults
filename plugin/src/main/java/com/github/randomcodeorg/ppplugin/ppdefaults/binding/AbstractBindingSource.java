@@ -78,10 +78,11 @@ public abstract class AbstractBindingSource implements BindingSource {
 			}
 			listeners.remove(key);
 		}
+		onRemove(key);
 		return true;
 	}
 	
-	public abstract void onRemove();
+	public abstract void onRemove(String key);
 
 
 
