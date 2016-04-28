@@ -50,8 +50,11 @@ public abstract class AbstractBindingSource implements BindingSource {
 
 	@Override
 	public final <T> void set(String key, T value) {
-		if (contains(key) && listeners.containsKey(key)) {
-			T oldValue = get(key, null);
+		if (listeners.containsKey(key)) {
+			T oldValue = null;
+			if (contains(key)){
+				oldValue = get(key, null);
+			}
 			onSet(key, value);
 			Set<WeakReference<BindingListener>> set = listeners.get(key);
 			BindingListener current;
