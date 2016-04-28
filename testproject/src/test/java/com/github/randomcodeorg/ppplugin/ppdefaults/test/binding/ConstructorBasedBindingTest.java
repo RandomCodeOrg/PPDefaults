@@ -14,15 +14,11 @@ public class ConstructorBasedBindingTest extends BaseTest {
 		SomeClass a = new SomeClass();
 		SomeClass b = new SomeClass();
 		
-		System.out.println(String.format("%s %d", a.getUsername(), a.getAge()));
-		
 		assertEquals(a.getUsername(), b.getUsername());
 		assertEquals(a.getAge(), b.getAge());
 		
 		a.setAge(randomInteger());
 		a.setUsername(randomString());
-		
-		System.out.println(String.format("%s %d", a.getUsername(), a.getAge()));
 		
 		assertEquals(a.getUsername(), b.getUsername());
 		assertEquals(a.getAge(), b.getAge());

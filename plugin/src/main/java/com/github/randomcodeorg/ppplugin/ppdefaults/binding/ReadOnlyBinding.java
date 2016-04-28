@@ -93,9 +93,14 @@ public class ReadOnlyBinding<T> implements BindingListener {
 		try {
 			T val = (T) newValue;
 			this.value = val;
+			if(!requested) requested = true;
 		} catch (ClassCastException e) {
 
 		}
+	}
+	
+	protected void setRequested(){
+		requested = true;
 	}
 
 }

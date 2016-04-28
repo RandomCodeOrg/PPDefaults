@@ -40,6 +40,7 @@ public class Binding<T> extends ReadOnlyBinding<T> {
 
 	public void set(T value) {
 		this.value = value;
+		setRequested();
 		if (isValid()) {
 			provider.set(key, value);
 		}
