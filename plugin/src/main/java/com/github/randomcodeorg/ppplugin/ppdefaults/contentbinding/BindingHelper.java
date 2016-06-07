@@ -13,5 +13,15 @@ public class BindingHelper {
 		}
 
 	}
+	
+	public static <T> CodedReadOnlyBinding<T> createReadOnly(BindingProvider provider, String name, T defaultValue, CodedReadOnlyBinding<?>... keys){
+		return new CodedReadOnlyBinding<T>(createCallback(provider, name, defaultValue, keys));
+	}
+	
+	private static <T> BindingCallback<T> createCallback(BindingProvider provider, String name, T defaultValue, CodedReadOnlyBinding<?>... keys){
+		DefaultKeyComposer composer = new DefaultKeyComposer(provider, name, keys);
+		return new DefaultBindingCallback<T>(provider, defaultValue, composer);
+	}
+	
 
 }
